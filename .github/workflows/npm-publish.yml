@@ -25,6 +25,6 @@ jobs:
               run: npm run build
 
             - name: Publish LauncherCore to NPM
-            - run: npm publish
+              run: npm publish
               env:
                   NODE_AUTH_TOKEN: ${{secrets.npm_token}}
