@@ -1,6 +1,10 @@
 /**
  * Класс хелпер для работы с JSON
  */
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type JsonData = Record<string, any>
+
 export class JsonHelper {
     /**
      * Преобразовать JSON строку в объект
@@ -17,8 +21,7 @@ export class JsonHelper {
      * @param pretty Форматировать вывод отступами или вывести в одну строку (по умолчанию `false`)
      * @returns JSON сторка
      */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    static toJSON(obj: Record<string, any>, pretty = false): string {
+    static toJSON(obj: JsonData, pretty = false): string {
         return pretty ? JSON.stringify(obj, null, 4) : JSON.stringify(obj)
     }
 }

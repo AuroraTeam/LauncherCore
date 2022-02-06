@@ -5,8 +5,7 @@ import { URL } from "url"
 import got, { Progress } from "got"
 import pMap from "p-map"
 
-import { ProgressHelper } from "./ProgressHelper"
-import { StorageHelper } from "./StorageHelper"
+import { JsonData, ProgressHelper, StorageHelper } from ".."
 
 export class HttpHelper {
     private static concurrency = 8
@@ -17,6 +16,10 @@ export class HttpHelper {
      */
     public static setConcurrency(concurrency: number) {
         this.concurrency = concurrency
+    }
+
+    public static async makePostRequest<T>(url: URL, json: JsonData): Promise<T> {
+        return await got.post(url, { json }).json()
     }
 
     /**
