@@ -1,5 +1,5 @@
 {
-    "name": "@auroralauncher/launchercore",
+    "name": "@auroralauncher/core",
     "version": "0.3.0",
     "description": "Base library for Aurora Launcher",
     "main": "./dist/index.js",
