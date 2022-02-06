@@ -1,6 +1,6 @@
 {
     "name": "launchercore",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "description": "Base library for Aurora Launcher",
     "main": "./dist/index.js",
     "types": "./dist/types/index.d.ts",
