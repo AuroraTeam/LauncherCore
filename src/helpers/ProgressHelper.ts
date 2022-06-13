@@ -67,7 +67,7 @@ export class ProgressHelper {
         const sizes = ["Bytes", "KB", "MB"]
         if (bytes === 0) return "0"
         const i = Math.floor(Math.log(bytes) / Math.log(1024))
-        if (i === 0) return `${bytes} ${sizes[i]})`
+        if (i === 0) return `${bytes} ${sizes[i]}`
         return `${(bytes / 1024 ** i).toFixed(2)} ${sizes[i]}`
     }
 }
