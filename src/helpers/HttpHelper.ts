@@ -5,7 +5,7 @@ import { URL } from "url"
 import got, { Progress } from "got"
 import pMap from "p-map"
 
-import { JsonData, ProgressHelper, StorageHelper } from ".."
+import { JsonData, JsonHelper, ProgressHelper, StorageHelper } from "."
 
 export class HttpHelper {
     private static concurrency = 8
@@ -40,6 +40,10 @@ export class HttpHelper {
     public static async readFile(url: URL): Promise<string> {
         const { body } = await got.get(url)
         return body
+    }
+
+    public static async getJson<T>(url: URL): Promise<T> {
+        return JsonHelper.fromJson<T>(await this.readFile(url))
     }
 
     /**
