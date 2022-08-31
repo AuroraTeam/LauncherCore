@@ -1,6 +1,6 @@
 {
     "name": "@auroralauncher/core",
-    "version": "0.4.0",
+    "version": "0.5.0",
     "description": "Base library for Aurora Launcher",
     "main": "./dist/index.js",
     "types": "./dist/types/index.d.ts",
@@ -34,10 +34,10 @@
         "dist"
     ],
     "devDependencies": {
-        "@tsconfig/node14": "^1.0.1",
-        "@types/adm-zip": "^0.4.34",
+        "@tsconfig/node16": "^1.0.3",
+        "@types/adm-zip": "^0.5.0",
         "@types/cli-progress": "^3.9.2",
-        "@types/node": "^14.18.10",
+        "@types/node": "^16.11.56",
         "@typescript-eslint/eslint-plugin": "^5.10.2",
         "@typescript-eslint/parser": "^5.10.2",
         "eslint": "^8.8.0",
