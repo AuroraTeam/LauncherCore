@@ -1,6 +1,6 @@
 {
     "name": "@auroralauncher/core",
-    "version": "0.6.0",
+    "version": "0.6.1",
     "description": "Base library for Aurora Launcher",
     "main": "./dist/index.js",
     "types": "./dist/types/index.d.ts",
@@ -10,7 +10,7 @@
         "prettier": "prettier --config .prettierrc.json --write src",
         "lint": "eslint . --ext .ts",
         "lint:fix": "eslint . --ext .ts --fix",
-        "prepublishOnly": "npm run clean"
+        "prepublishOnly": "npm run clean && npm run build"
     },
     "repository": {
         "type": "git",
