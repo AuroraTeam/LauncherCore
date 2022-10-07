@@ -7,13 +7,6 @@ export type JsonData = Record<string, any>
 
 export class JsonHelper {
     /**
-     * @deprecated Используйте `JsonHelper.fromJson`
-     */
-    static fromJSON<T>(string: string): T {
-        return this.fromJson(string)
-    }
-
-    /**
      * Преобразовать JSON строку в объект
      * @param string JSON строка
      * @returns `Object | Array`
@@ -24,22 +17,11 @@ export class JsonHelper {
 
     /**
      * Преобразовать объект в JSON строку
-     * @param obj Пробразуемый объект
-     * @param pretty Форматировать вывод отступами или вывести в одну строку (по умолчанию `false`)
-     * @returns JSON сторка
-     * @deprecated Используйте `JsonHelper.toJson`
-     */
-    static toJSON(obj: JsonData, pretty = false): string {
-        return this.toJson(obj, pretty)
-    }
-
-    /**
-     * Преобразовать объект в JSON строку
-     * @param obj Пробразуемый объект
+     * @param object Пробразуемый объект
      * @param pretty Форматировать вывод отступами или вывести в одну строку (по умолчанию `false`)
      * @returns JSON сторка
      */
-    static toJson(obj: JsonData, pretty = false): string {
-        return pretty ? JSON.stringify(obj, null, 4) : JSON.stringify(obj)
+    static toJson(object: JsonData, pretty = false): string {
+        return pretty ? JSON.stringify(object, null, 4) : JSON.stringify(object)
     }
 }
