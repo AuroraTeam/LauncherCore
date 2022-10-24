@@ -22,16 +22,6 @@ export class HttpHelper {
     }
 
     /**
-     * Проверка наличия файла
-     * @param url - объект Url, содержащий ссылку на файл
-     * @returns Promise, который вернёт `true`, в случае существования файла или `false` при его отсутствии или ошибке
-     * @deprecated используйте `HttpHelper.existsResource()`
-     */
-    public static async existFile(url: URL) {
-        return this.existsResource(url)
-    }
-
-    /**
      * Проверка наличия ресурса
      * @param url - объект URL, содержащий ссылку на ресурс
      * @returns Promise, который вернёт `true`, в случае существования ресурса или `false` при его отсутствии или ошибке
@@ -43,16 +33,6 @@ export class HttpHelper {
         } catch (error) {
             return false
         }
-    }
-
-    /**
-     * Чтение ресурса
-     * @param url - объект URL, содержащий ссылку на ресурс
-     * @returns Promise, который вернёт содержимое ресурса, в случае успеха
-     * @deprecated используйте `HttpHelper.getResource()`
-     */
-    public static readFile(url: URL) {
-        return this.getResource(url)
     }
 
     /**
@@ -72,13 +52,6 @@ export class HttpHelper {
      */
     public static async getResourceFromJson<T>(url: URL): Promise<T> {
         return JsonHelper.fromJson<T>(await this.getResource(url))
-    }
-
-    /**
-     * @deprecated используйте `HttpHelper.postJson()`
-     */
-    public static makePostRequest<T>(url: URL, json: JsonData): Promise<T> {
-        return this.postJson(url, json)
     }
 
     /**
