@@ -1,11 +1,14 @@
-import * as fs from "fs"
-import * as path from "path"
+import { createWriteStream } from "fs"
+import { mkdir, rm } from "fs/promises"
+import { dirname, resolve } from "path"
 import { URL } from "url"
 
 import got, { Progress } from "got"
 import pMap from "p-map"
 
 import { JsonData, JsonHelper, StorageHelper } from "."
+
+type onProgressFunction = (progress: Progress) => void
 
 export class HttpHelper {
     private static concurrency = 4
@@ -99,12 +102,13 @@ export class HttpHelper {
     public static downloadFile(
         url: URL,
         filePath: string | null,
-        options?: { onProgress?: (progress: Progress) => void; saveToTempFile?: boolean }
+        options?: { onProgress?: onProgressFunction; saveToTempFile?: boolean }
     ) {
-        options = Object.assign({ onProgress: undefined, saveToTempFile: false }, options)
+        options = { onProgress: undefined, saveToTempFile: false, ...options }
 
         if (options.saveToTempFile) filePath = StorageHelper.getTmpPath()
-        if (filePath === null) return Promise.reject("File path not found")
+        if (filePath === null) throw new Error("File path not found")
+
         return this.download(url, filePath, options.onProgress)
     }
 
@@ -112,22 +116,23 @@ export class HttpHelper {
      * Скачивание файлов
      * @param urls - итерируемый объект, содержащий ссылки на файлы (без домена)
      * @param site - домен сайта, с которого будут качаться файлы
-     * @param dirname - папка в которую будут сохранены все файлы
+     * @param dirName - папка в которую будут сохранены все файлы
      */
     public static async downloadFiles(
         urls: Iterable<string>,
         site: string,
-        dirname: string,
+        dirName: string,
+        // TODO options?
         callback?: (filePath: string) => void,
-        onProgress?: (progress: Progress) => void
+        onProgress?: onProgressFunction
     ) {
         await pMap(
             urls,
-            async (filename) => {
-                const filePath = path.resolve(dirname, filename)
-                fs.mkdirSync(path.dirname(filePath), { recursive: true })
+            async (fileName) => {
+                const filePath = resolve(dirName, fileName)
+                await mkdir(dirname(filePath), { recursive: true })
 
-                await this.download(new URL(filename, site), filePath, onProgress)
+                await this.download(new URL(fileName, site), filePath, onProgress)
                 if (callback) callback(filePath)
             },
             { concurrency: this.concurrency }
@@ -141,7 +146,7 @@ export class HttpHelper {
      * @param onProgress - коллбэк, в который передаётся текущий прогресс загрузки, если объявлен
      * @returns Promise, который вернёт название файла, в случае успеха
      */
-    private static download(url: URL, filePath: string, onProgress?: (progress: Progress) => void): Promise<string> {
+    private static download(url: URL, filePath: string, onProgress?: onProgressFunction): Promise<string> {
         return new Promise((resolve, reject) => {
             const fileStream = got.stream(url, { throwHttpErrors: false })
 
@@ -149,12 +154,12 @@ export class HttpHelper {
                 fileStream.on("data", () => onProgress(fileStream.downloadProgress))
             }
 
-            fileStream.once("error", (err) => {
-                fs.unlinkSync(filePath)
+            fileStream.once("error", async (err) => {
+                await rm(filePath)
                 reject(err)
             })
 
-            const file = fs.createWriteStream(filePath)
+            const file = createWriteStream(filePath)
             fileStream.pipe(file)
 
             file.once("close", () => resolve(filePath))
