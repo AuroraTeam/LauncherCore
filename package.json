@@ -1,6 +1,6 @@
 {
     "name": "@auroralauncher/core",
-    "version": "0.8.0",
+    "version": "0.8.1",
     "description": "Base library for Aurora Launcher",
     "main": "./dist/index.js",
     "types": "./dist/types/index.d.ts",
@@ -48,6 +48,6 @@
     },
     "dependencies": {
         "got": "^11.8.5",
-        "p-map": "^5.3.0"
+        "p-map": "^4.0.0"
     }
 }
