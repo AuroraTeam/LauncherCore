@@ -1,13 +1,12 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type JsonData = Record<string, any> | any[]
+
 /**
  * Класс хелпер для работы с JSON
  */
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type JsonData = Record<string, any>
-
 export class JsonHelper {
     /**
-     * Преобразовать JSON строку в объект
+     * Преобразовать JSON строку в объект / массив
      * @param string JSON строка
      * @returns `Object | Array`
      */
@@ -16,8 +15,8 @@ export class JsonHelper {
     }
 
     /**
-     * Преобразовать объект в JSON строку
-     * @param object Пробразуемый объект
+     * Преобразовать объект / массив в JSON строку
+     * @param object Пробразуемый объект / массив
      * @param pretty Форматировать вывод отступами или вывести в одну строку (по умолчанию `false`)
      * @returns JSON сторка
      */

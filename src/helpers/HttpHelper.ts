@@ -23,10 +23,10 @@ export class HttpHelper {
 
     /**
      * Проверка наличия ресурса
-     * @param url - объект URL, содержащий ссылку на ресурс
+     * @param url - строка или объект URL, содержащий ссылку на ресурс
      * @returns Promise, который вернёт `true`, в случае существования ресурса или `false` при его отсутствии или ошибке
      */
-    public static async existsResource(url: URL) {
+    public static async existsResource(url: string | URL) {
         try {
             const { statusCode } = await got.head(url)
             return statusCode >= 200 && statusCode < 300
@@ -37,47 +37,47 @@ export class HttpHelper {
 
     /**
      * Чтение ресурса
-     * @param url - объект URL, содержащий ссылку на ресурс
+     * @param url - строка или объект URL, содержащий ссылку на ресурс
      * @returns Promise, который вернёт содержимое ресурса, в случае успеха
      */
-    public static async getResource(url: URL) {
+    public static async getResource(url: string | URL) {
         const { body } = await got.get(url)
         return body
     }
 
     /**
      * Получение данных из JSON ресурса
-     * @param url - объект URL, содержащий ссылку на ресурс
+     * @param url - строка или объект URL, содержащий ссылку на ресурс
      * @returns Promise, который вернёт обработанный объект, в случае успеха
      */
-    public static async getResourceFromJson<T>(url: URL): Promise<T> {
+    public static async getResourceFromJson<T>(url: string | URL): Promise<T> {
         return JsonHelper.fromJson<T>(await this.getResource(url))
     }
 
     /**
      * Отправка POST запроса и получение результата из JSON
-     * @param url - объект URL, содержащий ссылку на ресурс
+     * @param url - строка или объект URL, содержащий ссылку на ресурс
      * @returns Promise, который вернёт обработанный объект, в случае успеха
      */
-    public static postJson<T>(url: URL, json: JsonData): Promise<T> {
+    public static postJson<T>(url: string | URL, json: JsonData): Promise<T> {
         return got.post(url, { json }).json()
     }
 
     /**
      * Скачивание файла
-     * @param url - объект URL, содержащий ссылку на файл
+     * @param url - строка или объект URL, содержащий ссылку на файл
      * @param filePath - путь до сохраняемого файла
      * @param options - список опций:
-     * @param options.showProgress - показывать прогресс бар, по умолчанию `true`
+     * @param options.onProgress - коллбэк, в который передаётся текущий прогресс загрузки, если объявлен
      * @param options.saveToTempFile - сохранять во временный файл, по умолчанию `false`
      * @returns Promise который вернёт название файла в случае успеха
      */
     public static downloadFile(
-        url: URL,
+        url: string | URL,
         filePath: string | null,
         options?: { onProgress?: onProgressFunction; saveToTempFile?: boolean }
     ) {
-        options = { onProgress: undefined, saveToTempFile: false, ...options }
+        options = { saveToTempFile: false, ...options }
 
         if (options.saveToTempFile) filePath = StorageHelper.getTmpPath()
         if (filePath === null) throw new Error("File path not found")
@@ -114,12 +114,12 @@ export class HttpHelper {
 
     /**
      * Внутренняя функция скачивания файла
-     * @param url - объект URL, содержащий ссылку на файл
+     * @param url - строка или объект URL, содержащий ссылку на файл
      * @param filePath - путь до сохраняемого файла
      * @param onProgress - коллбэк, в который передаётся текущий прогресс загрузки, если объявлен
      * @returns Promise, который вернёт название файла, в случае успеха
      */
-    private static download(url: URL, filePath: string, onProgress?: onProgressFunction): Promise<string> {
+    private static download(url: string | URL, filePath: string, onProgress?: onProgressFunction): Promise<string> {
         return new Promise((resolve, reject) => {
             const fileStream = got.stream(url, { throwHttpErrors: false })
 

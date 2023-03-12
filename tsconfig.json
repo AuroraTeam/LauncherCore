@@ -1,11 +1,8 @@
 {
-    "extends": "@tsconfig/node16/tsconfig.json",
+    "extends": "@tsconfig/node-lts-strictest/tsconfig.json",
     "compilerOptions": {
-        "outDir": "./dist/",
-        "sourceMap": true,
         "declaration": true,
-        "declarationDir": "dist/types",
-        "moduleResolution": "node"
+        "declarationDir": "dist/types"
     },
     "include": ["src"]
 }
