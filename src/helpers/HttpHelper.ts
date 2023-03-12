@@ -105,7 +105,11 @@ export class HttpHelper {
                 const filePath = resolve(dirName, fileName)
                 await mkdir(dirname(filePath), { recursive: true })
 
-                await this.download(new URL(fileName, site), filePath, onProgress)
+                await this.download(
+                    new URL(fileName, site),
+                    filePath,
+                    onProgress
+                )
                 if (callback) callback(filePath)
             },
             { concurrency: this.concurrency }
@@ -119,12 +123,18 @@ export class HttpHelper {
      * @param onProgress - коллбэк, в который передаётся текущий прогресс загрузки, если объявлен
      * @returns Promise, который вернёт название файла, в случае успеха
      */
-    private static download(url: string | URL, filePath: string, onProgress?: onProgressFunction): Promise<string> {
+    private static download(
+        url: string | URL,
+        filePath: string,
+        onProgress?: onProgressFunction
+    ): Promise<string> {
         return new Promise((resolve, reject) => {
             const fileStream = got.stream(url, { throwHttpErrors: false })
 
             if (onProgress !== undefined) {
-                fileStream.on("data", () => onProgress(fileStream.downloadProgress))
+                fileStream.on("data", () =>
+                    onProgress(fileStream.downloadProgress)
+                )
             }
 
             fileStream.once("error", async (err) => {
