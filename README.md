@@ -2,3 +2,5 @@
 <h1 align="center">AuroraLauncher Core</h1>
 
 ## Base library for Aurora Launcher
+
+Moved to [Launcher Monorepo](https://github.com/AuroraTeam/AuroraLauncher)
